@@ -40,6 +40,12 @@ async function run() {
          res.send(products)
       })
 
+      app.get('/products/:id', async (req, res) => {
+         const id = req.params.id;
+         const query = { _id: ObjectId(id) };
+         const category = await productsCollection.findOne(query);
+         res.send(category)
+      })
       app.post('/products', async (req, res) => {
          const product = req.body;
          const result = await productsCollection.insertOne(product);
