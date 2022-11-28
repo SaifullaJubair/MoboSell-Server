@@ -25,8 +25,8 @@ async function run() {
          const query = {}
          const categories = await categoriesCollection.find(query).toArray()
          res.send(categories)
-
       })
+
       app.post('/categories', async (req, res) => {
          const category = req.body;
          const result = await categoriesCollection.insertOne(category);
@@ -34,18 +34,24 @@ async function run() {
       })
 
 
+      app.get('/category/:id', async (req, res) => {
+         const query = { category: req.params.id }
+         const products = await productsCollection.find(query).toArray()
+         res.send(products)
+      })
       app.get('/products', async (req, res) => {
          const query = {};
          const products = await productsCollection.find(query).toArray();
          res.send(products)
       })
-
-      app.get('/products/:id', async (req, res) => {
-         const id = req.params.id;
-         const query = { _id: ObjectId(id) };
-         const category = await productsCollection.findOne(query);
-         res.send(category)
+      //------------------------------
+      app.get('/product/:id', async (req, res) => {
+         const id = req.params.id
+         const query = { _id: ObjectId(id) }
+         const result = await productsCollection.findOne(query)
+         res.send(result)
       })
+      //--------------------------------
       app.post('/products', async (req, res) => {
          const product = req.body;
          const result = await productsCollection.insertOne(product);
